@@ -1,4 +1,4 @@
-package com.example.mvi_android
+package com.example.mvi_android.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
