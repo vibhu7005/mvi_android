@@ -2,11 +2,18 @@ package com.example.mvi_android.view
 
 
 import android.os.Bundle
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -45,11 +52,19 @@ class MainActivity : androidx.fragment.app.FragmentActivity() {
     }
 
     @Composable
-    fun IdleScreen() {
+    fun IdleScreen(btnClick: () -> Unit) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Button(onClick = btnClick) {
+                Text(text = "Click to fetch animals")
+            }
+        }
     }
 
     @Composable
     fun LoadingScreen() {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
     }
 
     @Composable
@@ -57,16 +72,16 @@ class MainActivity : androidx.fragment.app.FragmentActivity() {
 
     }
 
-    @Composable
-    fun ErrorScreen() {
-    }
 
     @Composable
     fun MainScreen(vm: AnimalViewModel, btnClick: () -> Unit) {
-        val state = vm.state.value
-        when (state) {
+        when (val state = vm.state.value) {
             is State.Idle -> IdleScreen()
-            is State.Error -> ErrorScreen()
+            is State.Error -> {
+                IdleScreen(btnClick)
+                Toast.makeText(this, state.description, Toast.LENGTH_SHORT).show()
+            }
+
             is State.Animals -> AnimalsScreen(state.animals)
             is State.Loading -> LoadingScreen()
         }
