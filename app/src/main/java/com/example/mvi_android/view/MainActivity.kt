@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -69,19 +71,21 @@ class MainActivity : androidx.fragment.app.FragmentActivity() {
 
     @Composable
     fun AnimalsScreen(animals: List<Animal>) {
-
+        LazyColumn {
+            items(items = animals) {
+                Text(text = it.name)
+            }
+        }
     }
-
 
     @Composable
     fun MainScreen(vm: AnimalViewModel, btnClick: () -> Unit) {
         when (val state = vm.state.value) {
-            is State.Idle -> IdleScreen()
+            is State.Idle -> IdleScreen(btnClick)
             is State.Error -> {
                 IdleScreen(btnClick)
                 Toast.makeText(this, state.description, Toast.LENGTH_SHORT).show()
             }
-
             is State.Animals -> AnimalsScreen(state.animals)
             is State.Loading -> LoadingScreen()
         }
