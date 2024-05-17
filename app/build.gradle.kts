@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.kspAndroid)
 }
 
 android {
@@ -73,4 +74,7 @@ dependencies {
     implementation (libs.kotlinx.coroutines.android)
     implementation (libs.kotlinx.coroutines.core)
     implementation (libs.coil.compose)
+
+//    implementation("androidx.room:room-runtime:2.5.0-alpha03")
+//    ksp ("androidx.room:room-compiler:2.5.0-alpha03")
 }
