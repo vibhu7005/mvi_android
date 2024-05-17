@@ -90,4 +90,8 @@ class MainActivity : androidx.fragment.app.FragmentActivity() {
             is State.Loading -> LoadingScreen()
         }
     }
+
+    override fun onNewIntent(intent: android.content.Intent?) {
+        super.onNewIntent(intent)
+    }
 }
